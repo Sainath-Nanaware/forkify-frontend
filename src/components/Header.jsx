@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function Header() {
   return (
-   <header className='  h-[10vh] bg-gray-80 flex justify-center items-center bg-[#F5F5F5]'>
+   <header className='  h-[10vh] bg-gray-80 flex justify-center items-center bg-[#F5F5F5] sticky top-0 z-50'>
         {/* logo */}
         <div className=' w-[50%] h-[100%] pl-[10vw]'>
             <div className=' w-[36.4vw] h-[100%] bg-[#fdd677]
