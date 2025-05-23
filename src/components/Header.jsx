@@ -27,11 +27,11 @@ function Header() {
         </div>
         {/* login */}
         <div className='w-[50%] h-[100%] flex justify-end items-center gap-10 pr-[5vw]'>
-          <Link className='font-semibold hover:text-[#FEBE10]'>Home</Link>
+          <Link className='font-semibold hover:text-[#FEBE10]' to={"/"}>Home</Link>
           <Link className='font-semibold hover:text-[#FEBE10]'>About Us</Link>
           <Link className='font-semibold hover:text-[#FEBE10]'>Blog</Link>
-          <Link className='font-semibold hover:text-[#FEBE10]'>Login</Link>
-          <Link className='font-semibold hover:text-[#FEBE10]'>Sign up</Link>
+          <Link className='font-semibold hover:text-[#FEBE10]' to={"/login"}>Login</Link>
+          <Link className='font-semibold hover:text-[#FEBE10]' to={"/signUp"}>Sign up</Link>
 
         </div>
 
