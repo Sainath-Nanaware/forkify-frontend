@@ -17,7 +17,7 @@ function Header() {
                           <rect x="14" y="35" width="8" height="25" rx="2" fill="#6B7280" />
                         </g>
 
-                        <text x="50" y="70" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="36" fill="#111827" font-weight="600" letter-spacing="1">
+                        <text x="50" y="70" fontFamily="Segoe UI, Helvetica, Arial, sans-serif" fontSize="36" fill="#111827" fontWeight="600" letterSpacing="1">
                           Forkify
                         </text>
                      </svg>
@@ -25,7 +25,7 @@ function Header() {
             </div>
 
         </div>
-        {/* login */}
+        {/* tab fields */}
         <div className='w-[50%] h-[100%] flex justify-end items-center gap-10 pr-[5vw]'>
           <Link className='font-semibold hover:text-[#FEBE10]' to={"/"}>Home</Link>
           <Link className='font-semibold hover:text-[#FEBE10]'>About Us</Link>

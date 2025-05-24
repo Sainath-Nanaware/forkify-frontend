@@ -1,16 +1,32 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import imageBiryani from "../assets/salad.jpg"
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { loginSchema } from '../validations/authSchema';
+import { useDispatch } from 'react-redux';
 
 
 
 function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
+  const onSubmit=()=>{
+    console.log("login button press");
+    
+
+  }
   return (
     <div>
         {/* header */}
-        <header className='  h-[8vh] bg-gray-80  bg-[#f5f5f5] sticky top-0 z-50'>
+        <header className='  h-[8vh] bg-gray-80 flex bg-[#f5f5f5] sticky top-0 z-50'>
         {/* logo */}
-        <div className='  h-[100%] '>
+        <div className='w-1/2 h-[100%] '>
             <div className=' w-[36.4vw] h-[100%] 
  flex justify-start items-center pl-[4vw]'>
                     <Link to={"/"}>
@@ -22,12 +38,21 @@ function Login() {
                           <rect x="14" y="35" width="8" height="25" rx="2" fill="#6B7280" />
                         </g>
 
-                        <text x="50" y="70" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="36" fill="#111827" font-weight="600" letter-spacing="1">
+                        <text x="50" y="70" fontFamily="Segoe UI, Helvetica, Arial, sans-serif" fontSize="36" fill="#111827" fontWeight="600" letterSpacing="1">
                           Forkify
                         </text>
                      </svg>
                     </Link>
                 </div>
+
+            </div>
+             {/* tab fields */}
+            <div className=' w-[50%] h-[100%] flex justify-end items-center gap-10 pr-[5vw]'>
+              <Link className='font-semibold hover:text-[#FEBE10]' to={"/"}>Home</Link>
+              {/* <Link className='font-semibold hover:text-[#FEBE10]'>About Us</Link>
+              <Link className='font-semibold hover:text-[#FEBE10]'>Blog</Link>
+              <Link className='font-semibold hover:text-[#FEBE10]' to={"/login"}>Login</Link> */}
+              <Link className='font-semibold hover:text-[#FEBE10]' to={"/signUp"}>Sign up</Link>
 
             </div>
         </header>
@@ -50,7 +75,7 @@ function Login() {
             Welcome Back
           </h2>
 
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label className="block text-gray-700 font-medium mb-1">
                 Email
@@ -59,7 +84,9 @@ function Login() {
                 type="email"
                 placeholder="Enter your email"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FEBE10]"
+                {...register('email')}
               />
+              {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
             </div>
 
             <div>
@@ -70,7 +97,9 @@ function Login() {
                 type="password"
                 placeholder="Enter your password"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FEBE10]"
+                {...register('password')}
               />
+              {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
             </div>
 
             <button
