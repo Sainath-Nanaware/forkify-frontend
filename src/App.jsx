@@ -7,6 +7,8 @@ import { ToastContainer } from "react-toastify"
 import ProtectedRoute from "./routes/ProtectedRoute"
 import AdminDashboard from "./pages/admin/AdminDashboard"
 import Unauthorized from "./pages/unauthorized"
+import UserList from "./components/cards/UserList"
+import UpdateUserRole from "./components/Popups/UpdateUserRole"
 
 
 
@@ -22,7 +24,11 @@ function App() {
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
            </Route>
           <Route path="/recipeCards" element={<RecipeCard/>}/>
+          <Route path="/userListCards" element={<UserList/>}/>
+          <Route path="/rolePopup" element={<UpdateUserRole/>}/>
           <Route path="/unauthorized" element={<Unauthorized/>}/>
+            {/* <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
+
         </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </>
