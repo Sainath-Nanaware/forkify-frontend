@@ -4,8 +4,11 @@ import { removeToken, setToken } from "./authService";
 
 export const login=createAsyncThunk("/login",async(credentials, { rejectWithValue })=>{
         try {
+            console.log(credentials);
             const response=await loginUser(credentials)
-            setToken(response.data.token)
+            setToken(response.data.data.token)
+            // console.log(response.data);
+            // console.log("token:",response.data.data.token);
             return response.data
         } catch (error) {
                 return rejectWithValue(error);
@@ -21,7 +24,7 @@ export const logout=createAsyncThunk("/logout",async()=>{
 const authSlice=createSlice({
     name:"auth",
     initialState:{
-        user:null, 
+        userRole:null, 
         token:null, 
         loading:false,
         error:false
@@ -36,7 +39,10 @@ const authSlice=createSlice({
           .addCase(login.fulfilled, (state, action) => {
             state.loading = false;
             state.token = action.payload.token;
-            state.user = action.payload.user;
+            // console.log("user role in slice:", action.payload.data.role);
+            state.userRole = action.payload.data.role;
+            console.log("user in slice",state.userRole);
+            
           })
           .addCase(login.rejected, (state, action) => {
             state.loading = false;

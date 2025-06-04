@@ -1,8 +1,8 @@
 import axiosClient from "./axiosClient";
 
 // Auth APIs
-export const loginUser = (data) => axiosClient.post("/auth/login", data);
-export const registerUser = (data) => axiosClient.post("/auth/register", data);
+export const loginUser = (data) => axiosClient.post("/user/login", data);
+export const registerUser = (data) => axiosClient.post("/user/register", data);
 
 // User APIs
 export const getUser = (id) => axiosClient.get(`/users/${id}`);

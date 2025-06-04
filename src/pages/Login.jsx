@@ -1,25 +1,53 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useRef } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import imageBiryani from "../assets/salad.jpg"
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../validations/authSchema';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../features/auth/authSlice';
 
 
 
 function Login() {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
+  // const email=useRef()
+  // const password=useRef()
+  const user = useSelector(state => state.auth);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    getValues
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
-  const onSubmit=()=>{
+  const onSubmit=async()=>{
     console.log("login button press");
+    const credentials = getValues(); // Automatically gives { email, password }
+    // const credentials={email:email.current.value,password:password.current.value}
+    try {
+      const resultAction = await dispatch(login(credentials));
+      
+      if (login.fulfilled.match(resultAction)) {
+      const role = resultAction.payload.data.role;
+      // Navigate based on role
+      if (role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (role === 'user') {
+        navigate('/user/dashboard');
+      } else {
+        navigate('/unauthorized');
+      }
+    } else {
+      console.error("Login failed:", resultAction.payload);
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+  }
     
-
   }
   return (
     <div>
@@ -85,6 +113,7 @@ function Login() {
                 placeholder="Enter your email"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FEBE10]"
                 {...register('email')}
+                // ref={email}
               />
               {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
             </div>
@@ -98,6 +127,7 @@ function Login() {
                 placeholder="Enter your password"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FEBE10]"
                 {...register('password')}
+                // ref={password}
               />
               {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
             </div>

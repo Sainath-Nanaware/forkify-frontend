@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { removeToken } from "../features/auth/authService";
 
 const axiosClient = axios.create({
-  baseURL: "https://api.example.com",
+  baseURL: "http://localhost:5000",
   headers: {
     "Content-Type": "application/json",
   },
