@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginUser } from "../../api/apiRequests";
+import { loginUser, registerUser } from "../../api/apiRequests";
 import { removeToken, setToken } from "./authService";
 
 export const login=createAsyncThunk("/login",async(credentials, { rejectWithValue })=>{
@@ -15,6 +15,18 @@ export const login=createAsyncThunk("/login",async(credentials, { rejectWithValu
         }
 
 })
+
+export const signUp = createAsyncThunk(
+  "/register",
+    async (credentials, thunkAPI) => {
+      try {
+        const response = await registerUser(credentials);
+        return response.data;
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data);
+      }
+    }
+);
 
 export const logout=createAsyncThunk("/logout",async()=>{
     removeToken()

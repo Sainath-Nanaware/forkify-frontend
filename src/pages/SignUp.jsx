@@ -1,8 +1,40 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import imageBiryani from "../assets/salad.jpg"
+import { Button } from '@mui/material'
+import { signUpSchema } from '../validations/authSchema';
+import { useForm } from 'react-hook-form';
+import {  signUp } from '../features/auth/authSlice';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useDispatch } from 'react-redux';
 
 function SignUp() {
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues
+  } = useForm({
+    resolver: yupResolver(signUpSchema),
+  });
+  const onSubmit= async()=>{
+    
+    const userCredentials = getValues(); // Automatically gives {username, email, password }
+    try {
+      const resultAction = await dispatch(signUp(userCredentials));
+      console.log("result action:",resultAction)
+      if (signUp.fulfilled.match(resultAction)) {
+        console.log("register")
+        navigate('/login')
+      } else {
+        console.error("Sign up failed:", resultAction.payload);
+      }
+    } catch (error) {
+      console.error("Sign up error:", error);
+    }
+  }
   return (
     <div>
         {/* header */}
@@ -50,14 +82,14 @@ function SignUp() {
         />
       </div>
 
-      {/* Right Side - Login Form */}
+      {/* Right Side - sign up Form */}
       <div className="w-1/2 h-full flex items-center justify-center bg-[#f5f5f5]">
         <div className="w-full max-w-md p-8 space-y-6 shadow-xl rounded-xl">
           <h2 className="text-3xl font-bold text-gray-800 text-center">
             Create your account
           </h2>
 
-          <form className="space-y-5">
+          <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label className="block text-gray-700 font-medium mb-1">
                 Username
@@ -66,7 +98,10 @@ function SignUp() {
                 type="username"
                 placeholder="Enter your username"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FEBE10]"
+                {...register('username')}
               />
+              {errors.username && <p style={{ color: 'red' }}>{errors.username.message}</p>}
+
             </div>
             <div>
               <label className="block text-gray-700 font-medium mb-1">
@@ -76,7 +111,9 @@ function SignUp() {
                 type="email"
                 placeholder="Enter your email"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FEBE10]"
+                {...register('email')}
               />
+              {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
             </div>
 
             <div>
@@ -87,16 +124,43 @@ function SignUp() {
                 type="password"
                 placeholder="Enter your password"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FEBE10]"
+                {...register('password')}
               />
+              {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">
+                Role
+              </label>
+             <select
+                id="role"
+                name="role"
+                {...register('role')}
+                className="block w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-gray-800"
+             >           
+                <option value="user">Guest</option>
+                <option value="chef">Chef</option>
+             </select>
             </div>
 
-            <button
+            <Button type='submit' sx={{
+                       backgroundColor: '#FEBE10',
+                       borderRadius: '6px',
+                      color: 'black',
+                      fontWeight: 550,
+                      fontSize: '16px',
+                      textTransform: 'none',
+                      width:'100%'
+
+   
+             }}> Sign up</Button>
+            {/* <button
               type="submit"
               className="w-full bg-[#FEBE10] font-semibold py-2 rounded-lg hover:bg-[#FEBE10] transition duration-300"
             >
               Sign up
-            </button>
-             <p className='text-center'>
+            </button> */}
+             <p className='text-center pt-2'>
                 Already have an account? <Link  className='text-blue-700 underline' to={"/login"}>Login</Link>
             </p>
           </form>

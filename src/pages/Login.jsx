@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../validations/authSchema';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../features/auth/authSlice';
+import { Button } from '@mui/material';
 
 
 
@@ -34,6 +35,7 @@ function Login() {
       if (login.fulfilled.match(resultAction)) {
       const role = resultAction.payload.data.role;
       // Navigate based on role
+      //chef navigation is remaining and please solve guest and user confussion
       if (role === 'admin') {
         navigate('/admin/dashboard');
       } else if (role === 'user') {
@@ -131,14 +133,18 @@ function Login() {
               />
               {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
             </div>
+             <Button type='submit' sx={{
+                       backgroundColor: '#FEBE10',
+                       borderRadius: '6px',
+                      color: 'black',
+                      fontWeight: 550,
+                      fontSize: '16px',
+                      textTransform: 'none',
+                      width:'100%'
 
-            <button
-              type="submit"
-              className="w-full bg-[#FEBE10] font-semibold py-2 rounded-lg hover:bg-[#FEBE10] transition duration-300"
-            >
-              Login
-            </button>
-            <p className='text-center'>
+   
+             }}>Login</Button>
+            <p className='text-center pt-2'>
                 Don't have an account? <Link  className='text-blue-700 underline' to={"/signUp"}>Sign Up</Link>
             </p>
           </form>
