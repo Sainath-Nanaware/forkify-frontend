@@ -1,7 +1,9 @@
 import React from 'react'
 import imageBiryani from "../assets/Chicken_biryani_banner.png"
 import thaliDish from "../assets/Thali_food_platter.jpg"
+import { useNavigate } from 'react-router-dom'
 function Main() {
+  const navigate=useNavigate()
   return (
     <main className=' h-[88vh] flex justify-center items-center bg-[#F5F5F5]'>
       {/* image portion */}
@@ -22,7 +24,7 @@ function Main() {
           Explore thousands of recipes, customize your cooking experience, and become part of a food-loving community — all in one place.
         </p>
         {/* button  */}
-        <button className='mt-5 p-2 pl-4 pr-4 rounded-[6px] font-semibold border-2 border-orange-400 hover:bg-[#FEBE10] hover:border-2 hover:border-[#FEBE10] '>Explore recipes</button>
+        <button className='mt-5 p-2 pl-4 pr-4 rounded-[6px] font-semibold border-2 border-orange-400 hover:bg-[#FEBE10] hover:border-2 hover:border-[#FEBE10] ' onClick={()=>{navigate('/exploreRecipes')}}>Explore recipes</button>
       </div>
     </main>
   )

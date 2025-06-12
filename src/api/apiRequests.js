@@ -9,8 +9,12 @@ export const getAllUsersInfo = () => axiosClient.get(`/admin/allUsers`);
 export const getUsersInfoByRole = (role) => axiosClient.get(`/admin/user?role=${role}`);
 export const deleteUser = (id) => axiosClient.delete(`/users/${id}`);
 
-// Posts APIs
-export const getPosts = () => axiosClient.get("/posts");
+// Recipes APIs
+export const getAllRecipes = (page,limit) => axiosClient.get(`/recipe?page=${page}&limit=${limit}`);
+export const getRandomRecipes = (limit) =>
+  axiosClient.get(`/recipe/demoRecipes/${limit}`);
+
+
 export const createPost = (data) => axiosClient.post("/posts", data);
 export const updatePost = (id, data) => axiosClient.patch(`/posts/${id}`, data);
 export const deletePost = (id) => axiosClient.delete(`/posts/${id}`);

@@ -9,6 +9,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard"
 import Unauthorized from "./pages/unauthorized"
 import UserList from "./components/cards/UserList"
 import UpdateUserRole from "./components/Popups/UpdateUserRole"
+import ExploreRecipes from "./pages/ExploreRecipes"
 
 
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/signUp" element={<SignUp/>}/>
+          <Route path="/exploreRecipes" element={<ExploreRecipes/>}/>
           {/* Admin routes */}
            <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
