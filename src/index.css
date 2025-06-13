@@ -8,3 +8,9 @@
 body {
     @apply bg-[#f5f5f5];
 }
+
+.bg-dish {
+    background-image: url('./assets/Chicken_biryani_banner.png');
+    background-size: cover;
+    background-position: center;
+}

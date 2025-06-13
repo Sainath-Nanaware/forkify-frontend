@@ -40,6 +40,8 @@ function Login() {
         navigate('/admin/dashboard');
       } else if (role === 'user') {
         navigate('/user/dashboard');
+      }else if (role === 'chef') {
+        navigate('/chef/dashboard');
       } else {
         navigate('/unauthorized');
       }

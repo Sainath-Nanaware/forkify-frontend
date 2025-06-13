@@ -14,6 +14,7 @@ export const getRandomRecipesThunk=createAsyncThunk('/allRecipes',async(limit)=>
 })
 
 
+
 const recipeSlice=createSlice({
     name:"recipes",
     initialState:{
