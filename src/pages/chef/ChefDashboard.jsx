@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -12,15 +12,45 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import DehazeOutlinedIcon from '@mui/icons-material/DehazeOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllRecipesThunk } from '../../features/recipes/recipesSlice';
+import Pagination from '@mui/material/Pagination';
+import RecipeCard from '../../components/RecipeCard';
+
 
 function ChefDashboard() {
-  const [open, setOpen] = React.useState(false);
+   // for pagination
+  const [page, setPage] = useState(1);
+  const limit = 8; //limit recipies per page
 
+  //api call 
+  const {allRecipesArray,totalRecipesCount}=useSelector((state)=>state.recipes)
+  const dispatch=useDispatch()
+  
+  useEffect(()=>{
+    const getAllRecipesInfo=async(page,limit)=>{
+        console.log(page,limit)
+        // always remember asyncThunk not take multiple parameter it's take only one  then we wrap age and limit into single object and pass
+        const resultAction=await dispatch(getAllRecipesThunk({page,limit}))
+    }
+    getAllRecipesInfo(page,limit)
+  },[page])
+  
+  //get redux state  All recipesArray and count
+  useEffect(() => {
+  console.log("Updated state:", allRecipesArray,"total recipe count:", totalRecipesCount);
+  }, [allRecipesArray, totalRecipesCount]);
+
+ 
+
+
+  // drawer logic 
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
-
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
@@ -54,10 +84,10 @@ function ChefDashboard() {
   return (
     <>
     {/* header */}
-    <div className=''>
-         <header className='  h-[8vh] bg-gray-80 flex  sticky top-0 z-50 shadow-sm'  style={{
-    background: "linear-gradient(90deg, #FFE066, #FFF9DB",
-  }}
+    <div className='sticky top-0 z-50 shadow-sm'>
+         <header className='  h-[8vh] bg-gray-80 flex  sticky top-0 z-50 shadow-sm '  style={{
+         background: "linear-gradient(90deg, #FFE066, #FFF9DB",
+         }}
 >
         {/* logo */}
         <div className='w-1/2 h-[100%] '>
@@ -85,21 +115,36 @@ function ChefDashboard() {
               <Link className='font-semibold hover:text-[#FEBE10]' to={"/"}>Home</Link>
               <Link className='font-semibold hover:text-[#FEBE10]'>About Us</Link>
               <Link className='font-semibold hover:text-[#FEBE10]'>Blog</Link>
-              <Link className='font-semibold hover:text-[#FEBE10]' to={"/login"}>Login</Link>
-              <Link className='font-semibold hover:text-[#FEBE10]' to={"/signUp"}>Sign up</Link>
+              {/* <Link className='font-semibold hover:text-[#FEBE10]' to={"/login"}>Login</Link> */}
+              {/* <Link className='font-semibold hover:text-[#FEBE10]' to={"/signUp"}>Sign up</Link> */}
+              {/* user setting drawer button  */}
+              <Button onClick={toggleDrawer(true)}><AccountCircleIcon sx={{ color: 'black' }}/></Button>
+
 
             </div>
         </header>
     </div>
-    <div className=' pb flex justify-start items-start h-[16vh] gap-[6vw]'>
-    <div className=''>
-      <Button onClick={toggleDrawer(true)}><DehazeOutlinedIcon sx={{ color: 'black' }}/></Button>
-      <Drawer open={open} onClose={toggleDrawer(false)}>
+
+
+    {/* tag line and select option */}
+    <div className='  flex justify-start items-start h-[16vh] gap-[6vw]'>
+    <div className=' '>
+      {/* <Button onClick={toggleDrawer(true)}><DehazeOutlinedIcon sx={{ color: 'black' }}/></Button> */}
+      <Drawer   anchor="right"  PaperProps={{
+          sx: {
+                      height: '100vh',
+                      top: '8vh', // Adjust this to match your header height
+                      position: 'fixed',
+                      borderBottomLeftRadius: 10,
+                      borderBottomRightRadius: 10,
+                      overflow: 'auto',
+              },
+            }} open={open} onClose={toggleDrawer(false)} >
         {DrawerList}
       </Drawer>
     </div>
     {/* text and*/}
-    <div className='  h-[16vh] '>
+    <div className=' ml-5   h-[16vh] '>
         <p className=' mt-6 text-xl w-[64vw] font-semibold text-[22px]'>Feeling spicy or sweet? Let your taste buds decide – explore top recipes and share your foodie journey with ratings & reviews!</p>
     </div>
     {/* sort option */}
@@ -118,9 +163,25 @@ function ChefDashboard() {
     </div>
 
     {/* dishs cards */}
-    <div className='pb h-[100vh]'>
+    <div className=' h-[122vh] pt-6 flex justify-center items-start flex-wrap gap-6'>
+        {/* recipes cards */}
+
+        {allRecipesArray && allRecipesArray.map((element)=>{
+            return <Link to={`/recipeDetails/${element._id}`} key={element._id}> <RecipeCard  name={element.title} desc={element.description} img={element.image} /></Link>
+        })}
+
 
     </div>
+
+      {/* pagination buttons */}
+      <div className=' h-[8vh] flex justify-center items-start'>
+          <Pagination
+            count={Math.ceil(totalRecipesCount / limit)}//total page number
+            page={page}//current page
+            onChange={(event, value) => setPage(value)}//update page value in state
+            color="primary"
+          /> 
+      </div>
     </>
 
   );

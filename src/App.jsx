@@ -11,6 +11,7 @@ import UserList from "./components/cards/UserList"
 import UpdateUserRole from "./components/Popups/UpdateUserRole"
 import ExploreRecipes from "./pages/ExploreRecipes"
 import ChefDashboard from "./pages/chef/ChefDashboard"
+import RecipeDetails from "./pages/recipe/RecipeDetails"
 
 
 
@@ -29,6 +30,7 @@ function App() {
           {/* Chef routes */}
           <Route element={<ProtectedRoute allowedRoles={['chef']} />}>
            <Route path="/chef/dashboard" element={<ChefDashboard/>} />
+           <Route path="/recipeDetails/:id" element={<RecipeDetails/>} />
           </Route>
           <Route path="/recipeCards" element={<RecipeCard/>}/>
           <Route path="/userListCards" element={<UserList/>}/>
