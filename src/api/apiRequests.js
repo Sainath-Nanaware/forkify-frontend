@@ -11,8 +11,14 @@ export const deleteUser = (id) => axiosClient.delete(`/users/${id}`);
 
 // Recipes APIs
 export const getAllRecipes = (page,limit) => axiosClient.get(`/recipe?page=${page}&limit=${limit}`);
-export const getRandomRecipes = (limit) =>
-  axiosClient.get(`/recipe/demoRecipes/${limit}`);
+export const getAllRecipesWithMealType = (page, limit, mealType) =>
+  axiosClient.get(
+    `/recipe/mealRecipes/recipe?mealType=${mealType}&page=${page}&limit=${limit}`
+  );
+  export const getRandomRecipes = (limit) =>
+    axiosClient.get(`/recipe/demoRecipes/${limit}`);
+  export const getRecipeDetails = (id) =>
+    axiosClient.get(`recipe/${id}`);
 
 
 export const createPost = (data) => axiosClient.post("/posts", data);

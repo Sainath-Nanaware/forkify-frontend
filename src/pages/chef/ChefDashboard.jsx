@@ -15,7 +15,7 @@ import DehazeOutlinedIcon from '@mui/icons-material/DehazeOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllRecipesThunk } from '../../features/recipes/recipesSlice';
+import { getAllRecipesWithMealTypeThunk } from '../../features/recipes/recipesSlice';
 import Pagination from '@mui/material/Pagination';
 import RecipeCard from '../../components/RecipeCard';
 
@@ -28,15 +28,16 @@ function ChefDashboard() {
   //api call 
   const {allRecipesArray,totalRecipesCount}=useSelector((state)=>state.recipes)
   const dispatch=useDispatch()
+  const [mealType,setMealType]=useState('all')
   
   useEffect(()=>{
     const getAllRecipesInfo=async(page,limit)=>{
         console.log(page,limit)
         // always remember asyncThunk not take multiple parameter it's take only one  then we wrap age and limit into single object and pass
-        const resultAction=await dispatch(getAllRecipesThunk({page,limit}))
+        const resultAction=await dispatch(getAllRecipesWithMealTypeThunk({page,limit,mealType}))
     }
     getAllRecipesInfo(page,limit)
-  },[page])
+  },[page,mealType])
   
   //get redux state  All recipesArray and count
   useEffect(() => {
@@ -147,17 +148,19 @@ function ChefDashboard() {
     <div className=' ml-5   h-[16vh] '>
         <p className=' mt-6 text-xl w-[64vw] font-semibold text-[22px]'>Feeling spicy or sweet? Let your taste buds decide – explore top recipes and share your foodie journey with ratings & reviews!</p>
     </div>
-    {/* sort option */}
+    {/* select option */}
     <div className='mt-[4vh]'>
              <select
                 id="role"
                 name="role"
                 className="block w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-gray-800"
-                // value={} onChange={handleChangeRole}
+                 value={mealType} onChange={(e)=>{setMealType(e.target.value)}}
             >           
                 <option value="">--Select Meal Type--</option>
+                <option value="all">All</option>
+                <option value="breakfast">Breakfast</option>
                 <option value="lunch">Lunch</option>
-                <option value="breakfast">breakfast</option>
+                <option value="Dinner">Dinner</option>
             </select>
     </div>
     </div>

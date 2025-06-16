@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllRecipes, getRandomRecipes } from "../../api/apiRequests";
+import { getAllRecipesWithMealType, getRandomRecipes, getRecipeDetails } from "../../api/apiRequests";
 
 export const getRandomRecipesThunk=createAsyncThunk('/randomRecipes',async(limit)=>{
     try{
@@ -14,12 +14,12 @@ export const getRandomRecipesThunk=createAsyncThunk('/randomRecipes',async(limit
 })
 
 //createAsyncThunk only passes a single argument (usually called payload) to the async function — not multiple parameters directly then we wrap page snd limit in single object.
-export const getAllRecipesThunk = createAsyncThunk(
+export const getAllRecipesWithMealTypeThunk = createAsyncThunk(
   "/allRecipes",
-  async ({ page, limit }, { rejectWithValue }) => {
+  async ({ page, limit,mealType }, { rejectWithValue }) => {
     try {
-      console.log("in slice page and limit:", page, limit);
-      const response = await getAllRecipes(page, limit);
+      console.log("in slice page and limit:", page, limit,mealType);
+      const response = await getAllRecipesWithMealType(page, limit,mealType);
       console.log("all recipes data:", response.data.data);
       return response.data.data;
     } catch (error) {
@@ -28,6 +28,17 @@ export const getAllRecipesThunk = createAsyncThunk(
   }
 );
 
+export const getRecipeDetailsThunk=createAsyncThunk("/recipeDetails",async(id)=>{
+  try{
+    const response=await getRecipeDetails(id)
+    return response.data.data
+
+  }catch(error){
+      return rejectWithValue(error);
+  }
+
+})
+
 
 
 const recipeSlice=createSlice({
@@ -35,6 +46,7 @@ const recipeSlice=createSlice({
     initialState:{
         randomRecipesArray:[],
         allRecipesArray:[],
+        singleRecipeDetails:{},
         totalRecipesCount:0,
         error:null,
         loading:false,
@@ -55,22 +67,40 @@ const recipeSlice=createSlice({
              state.loading = false;
              state.error = action.payload;
            })
-           //for get all recipes
-           .addCase(getAllRecipesThunk.pending, (state, action) => {
+           //for get all recipes with mealType
+           .addCase(getAllRecipesWithMealTypeThunk.pending, (state, action) => {
              state.loading = true;
            })
-           .addCase(getAllRecipesThunk.fulfilled, (state, action) => {
-             state.loading = false;
-             state.allRecipesArray = action.payload.recipes;
-             state.totalRecipesCount = action.payload.totalRecipes;
-             console.log(
-               "In slice all Recipes Array:",
-               state.allRecipesArray,
-               "totalRecipesCount:",
-               state.totalRecipesCount
-             );
+           .addCase(
+             getAllRecipesWithMealTypeThunk.fulfilled,
+             (state, action) => {
+               state.loading = false;
+               state.allRecipesArray = action.payload.recipes;
+               state.totalRecipesCount = action.payload.totalRecipes;
+               console.log(
+                 "In slice all Recipes Array:",
+                 state.allRecipesArray,
+                 "totalRecipesCount:",
+                 state.totalRecipesCount
+               );
+             }
+           )
+           .addCase(
+             getAllRecipesWithMealTypeThunk.rejected,
+             (state, action) => {
+               state.loading = false;
+               state.error = action.payload;
+             }
+           )
+           //  for single recipe details
+           .addCase(getRecipeDetailsThunk.pending, (state, action) => {
+             state.loading = true;
            })
-           .addCase(getAllRecipesThunk.rejected, (state, action) => {
+           .addCase(getRecipeDetailsThunk.fulfilled, (state, action) => {
+             state.loading = false;
+             state.singleRecipeDetails = action.payload;
+           })
+           .addCase(getRecipeDetailsThunk.rejected, (state, action) => {
              state.loading = false;
              state.error = action.payload;
            });

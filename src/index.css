@@ -14,3 +14,9 @@ body {
     background-size: cover;
     background-position: center;
 }
+
+.bg-ingrediants {
+    background-image: url('./assets/ingrediants.jpg');
+    background-size:cover;
+    background-position: end;
+}
