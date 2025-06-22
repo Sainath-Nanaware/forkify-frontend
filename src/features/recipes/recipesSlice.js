@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllRecipesWithMealType, getRandomRecipes, getRecipeDetails } from "../../api/apiRequests";
+import { createRecipe, getAllRecipesWithMealType, getRandomRecipes, getRecipeDetails } from "../../api/apiRequests";
 
 export const getRandomRecipesThunk=createAsyncThunk('/randomRecipes',async(limit)=>{
     try{
@@ -37,6 +37,18 @@ export const getRecipeDetailsThunk=createAsyncThunk("/recipeDetails",async(id)=>
       return rejectWithValue(error);
   }
 
+})
+
+export const createRecipeThunk=createAsyncThunk("/createRecipe",async(formData)=>{
+  try{
+    console.log("call create recipe thunk")
+    const response=await createRecipe(formData) 
+    console.log("get response from create recipe api");
+    return response.data
+
+  }catch(error){
+      return rejectWithValue(error);
+  }
 })
 
 

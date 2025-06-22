@@ -10,10 +10,18 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
+
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+
 import MailIcon from '@mui/icons-material/Mail';
 import DehazeOutlinedIcon from '@mui/icons-material/DehazeOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllRecipesWithMealTypeThunk } from '../../features/recipes/recipesSlice';
 import Pagination from '@mui/material/Pagination';
@@ -21,6 +29,7 @@ import RecipeCard from '../../components/RecipeCard';
 
 
 function ChefDashboard() {
+  const navigate=useNavigate();
    // for pagination
   const [page, setPage] = useState(1);
   const limit = 8; //limit recipies per page
@@ -44,6 +53,26 @@ function ChefDashboard() {
   console.log("Updated state:", allRecipesArray,"total recipe count:", totalRecipesCount);
   }, [allRecipesArray, totalRecipesCount]);
 
+  // side drawer icons
+  const drawerIcons={
+        0:<AccountBoxIcon/>,
+        1:<TurnedInIcon/> ,
+        2:<MenuBookIcon/>,
+        3:<ModeEditIcon/>,
+        
+  }
+
+  //user side drawer routes
+  const drawerItem=[
+    { text:'Profile', route:'/profile' },
+    { text: 'Saved', route:'/saved' },
+    { text: 'Recipes', route: '/recipes' },
+    { text: 'Create Recipe', route: '/create-recipe' }
+  ]
+
+  const handleDrawerOptionClick=(route)=>{
+    navigate(route)
+  }
  
 
 
@@ -55,24 +84,24 @@ function ChefDashboard() {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+        {drawerItem.map((element, index) => (
+          <ListItem key={element.text} disablePadding>
+            <ListItemButton onClick={()=>{handleDrawerOptionClick(element.route)}}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {drawerIcons[index]}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={element.text} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+        {['Log Out'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {<LogoutIcon/>}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -156,7 +185,6 @@ function ChefDashboard() {
                 className="block w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-gray-800"
                  value={mealType} onChange={(e)=>{setMealType(e.target.value)}}
             >           
-                <option value="">--Select Meal Type--</option>
                 <option value="all">All</option>
                 <option value="breakfast">Breakfast</option>
                 <option value="lunch">Lunch</option>

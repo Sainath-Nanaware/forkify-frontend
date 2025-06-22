@@ -1,4 +1,5 @@
 import axiosClient from "./axiosClient";
+import axiosFormClient from "./axiosFormClient";
 
 // Auth APIs
 export const loginUser = (data) => axiosClient.post("/user/login", data);
@@ -20,7 +21,8 @@ export const getAllRecipesWithMealType = (page, limit, mealType) =>
   export const getRecipeDetails = (id) =>
     axiosClient.get(`recipe/${id}`);
 
+export const createRecipe = (formData) => axiosFormClient.post("/recipe/", formData);
 
-export const createPost = (data) => axiosClient.post("/posts", data);
+
 export const updatePost = (id, data) => axiosClient.patch(`/posts/${id}`, data);
 export const deletePost = (id) => axiosClient.delete(`/posts/${id}`);
