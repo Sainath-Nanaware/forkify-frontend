@@ -34,10 +34,10 @@ function PopularRecipeHome() {
 ];
 
     return (
-    <div className='h-[82vh] bg-[#f5f5f5]'>
+    <div className=' h-[82vh] bg-[#f5f5f5]'>
         {/* text area */}
         <div className=' h-[20vh] mt-6 '>
-            <p className=' text-center text-[42px] font-[600] '>
+            <p className=' text-2xl md:text-4xl font-bold text-gray-900 mb-4 text-center '>
                 Popular Recipes You Can't Miss
             </p>
             <p className=' text-center w-[55vw] ml-[22vw] font-medium text-gray-500'>

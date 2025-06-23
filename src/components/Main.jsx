@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 function Main() {
   const navigate=useNavigate()
   return (
-    <main className=' h-[88vh] flex justify-center items-center bg-[#F5F5F5]'>
+    <main className=' h-[90vh] flex justify-center items-center bg-[#F5F5F5]'>
       {/* image portion */}
       <div className=' h-[100%] w-[50%] pl-[10vw]'>
         <div>
