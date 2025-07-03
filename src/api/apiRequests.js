@@ -16,12 +16,17 @@ export const getAllRecipesWithMealType = (page, limit, mealType) =>
   axiosClient.get(
     `/recipe/mealRecipes/recipe?mealType=${mealType}&page=${page}&limit=${limit}`
   );
-  export const getRandomRecipes = (limit) =>
+export const getRandomRecipes = (limit) =>
     axiosClient.get(`/recipe/demoRecipes/${limit}`);
-  export const getRecipeDetails = (id) =>
+export const getRecipeDetails = (id) =>
     axiosClient.get(`recipe/${id}`);
 
 export const createRecipe = (formData) => axiosFormClient.post("/recipe/", formData);
+export const getRecipesByChefID = (page, limit,id) =>
+  axiosClient.get(
+    `/recipe/all/chefRecipes?chefId=${id}&page=${page}&limit=${limit}`
+  );
+export const deleteRecipe=(id)=>axiosClient.delete(`/recipe/${id}`)
 
 
 export const updatePost = (id, data) => axiosClient.patch(`/posts/${id}`, data);

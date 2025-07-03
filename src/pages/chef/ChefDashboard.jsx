@@ -66,7 +66,7 @@ function ChefDashboard() {
   const drawerItem=[
     { text:'Profile', route:'/profile' },
     { text: 'Saved', route:'/saved' },
-    { text: 'Recipes', route: '/recipes' },
+    { text: 'Recipes', route: '/chefAllRecipes' },
     { text: 'Create Recipe', route: '/create-recipe' }
   ]
 
@@ -99,7 +99,9 @@ function ChefDashboard() {
       <List>
         {['Log Out'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={()=>{
+              localStorage.clear()
+              navigate('/login')}}>
               <ListItemIcon>
                 {<LogoutIcon/>}
               </ListItemIcon>
@@ -173,7 +175,7 @@ function ChefDashboard() {
         {DrawerList}
       </Drawer>
     </div>
-    {/* text and*/}
+    {/* text area*/}
     <div className=' ml-5   h-[16vh] '>
         <p className=' mt-6 text-xl w-[64vw] font-semibold text-[22px]'>Feeling spicy or sweet? Let your taste buds decide – explore top recipes and share your foodie journey with ratings & reviews!</p>
     </div>

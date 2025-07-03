@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createRecipe, getAllRecipesWithMealType, getRandomRecipes, getRecipeDetails } from "../../api/apiRequests";
+import { createRecipe, getAllRecipesWithMealType, getRandomRecipes, getRecipeDetails, getRecipesByChefID } from "../../api/apiRequests";
 
 export const getRandomRecipesThunk=createAsyncThunk('/randomRecipes',async(limit)=>{
     try{
@@ -51,6 +51,21 @@ export const createRecipeThunk=createAsyncThunk("/createRecipe",async(formData)=
   }
 })
 
+export const chefAllRecipesThunk = createAsyncThunk(
+  "/chefAllRecipes",
+  async ({ page, limit, chefId }, { rejectWithValue }) => {
+    try {
+      console.log("call get all chef recipe thunk");
+      console.log("chef id:",chefId)
+      const response = await getRecipesByChefID(page, limit, chefId);
+      console.log("get response from get all chef recipe api");
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 
 
 const recipeSlice=createSlice({
@@ -60,6 +75,8 @@ const recipeSlice=createSlice({
         allRecipesArray:[],
         singleRecipeDetails:{},
         totalRecipesCount:0,
+        chefRecipes:[],
+        totalChefRecipesCount:0,
         error:null,
         loading:false,
     },
@@ -113,6 +130,20 @@ const recipeSlice=createSlice({
              state.singleRecipeDetails = action.payload;
            })
            .addCase(getRecipeDetailsThunk.rejected, (state, action) => {
+             state.loading = false;
+             state.error = action.payload;
+           })
+           
+           //for chef recipes
+            .addCase(chefAllRecipesThunk.pending, (state, action) => {
+             state.loading = true;
+           })
+           .addCase(chefAllRecipesThunk.fulfilled, (state, action) => {
+             state.loading = false;
+             state.chefRecipes = action.payload.recipes;
+             state.totalChefRecipesCount = action.payload.totalRecipes;
+           })
+           .addCase(chefAllRecipesThunk.rejected, (state, action) => {
              state.loading = false;
              state.error = action.payload;
            });

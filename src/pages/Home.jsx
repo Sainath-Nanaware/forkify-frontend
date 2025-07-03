@@ -6,6 +6,7 @@ import ChefCard from '../components/layouts/ChefCard'
 import Footer from '../components/layouts/Footer'
 
 function Home() {
+  localStorage.clear()
   return (
     <>
         <Header/>

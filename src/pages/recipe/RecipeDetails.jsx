@@ -1,14 +1,21 @@
 import React, { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import img from '../../assets/healthy_food.jpg'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRecipeDetails } from '../../api/apiRequests'
+import { deleteRecipe, getRecipeDetails } from '../../api/apiRequests'
+import { useLocation } from 'react-router-dom';
 import { getRecipeDetailsThunk } from '../../features/recipes/recipesSlice'
+import Button from '@mui/material/Button'
+import { toast } from 'react-toastify'
 
 function RecipeDetails() {
   const {singleRecipeDetails}=useSelector((state)=>state.recipes)
   const dispatch=useDispatch()
   const { id } = useParams();
+  const location = useLocation();
+  const { admin } = location.state || {};
+  const navigate=useNavigate()
+  console.log(admin)
   useEffect(()=>{
     dispatch(getRecipeDetailsThunk(id))
   },[id])
@@ -23,6 +30,21 @@ function RecipeDetails() {
     3:'bg-yellow-200',
     4:'bg-orange-200',
     5:'bg-blue-200'
+  }
+
+  const handleDeleteRecipe=(id)=>{
+    async function deleteRecipeOfChef(id){
+      try{
+        await deleteRecipe(id);
+        toast.success("Recipe delete successfully")
+        navigate('/chef/dashboard')
+
+      }catch(error){
+        console.log("error at delete recipe")
+        toast.error("Something wents wrong!")
+      }
+    }
+    deleteRecipeOfChef(id)
   }
 
 
@@ -137,9 +159,10 @@ function RecipeDetails() {
          </div>
          
       </div>
-      <div className='h-[20vh]'>
-
-      </div>
+      {admin && <div className='h-[10vh] flex justify-center items-center'>
+              <Button onClick={()=>{handleDeleteRecipe(id)}} variant="contained" sx={{backgroundColor:'red',textTransform: 'none'}}>Delete Recipe</Button>
+      </div>}
+      
 
    </>
   )
