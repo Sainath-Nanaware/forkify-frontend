@@ -9,6 +9,9 @@ export const registerUser = (data) => axiosClient.post("/user/register", data);
 export const getAllUsersInfo = () => axiosClient.get(`/admin/allUsers`);
 export const getUsersInfoByRole = (role) => axiosClient.get(`/admin/user?role=${role}`);
 export const deleteUser = (id) => axiosClient.delete(`/users/${id}`);
+export const saveRecipe = (data) => axiosClient.post(`user/savedRecipe`,data);
+export const allSavedRecipe=(id)=>axiosClient.get(`user/savedRecipes/${id}`)
+export const removeSavedRecipe = (userId, recipeId) =>axiosClient.delete(`user/saved-recipe/${userId}/${recipeId}`);
 
 // Recipes APIs
 export const getAllRecipes = (page,limit) => axiosClient.get(`/recipe?page=${page}&limit=${limit}`);

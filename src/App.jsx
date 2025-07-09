@@ -15,6 +15,7 @@ import RecipeDetails from "./pages/recipe/RecipeDetails"
 import CreateRecipe from "./pages/chef/CreateRecipe"
 import PreviewRecipe from "./pages/recipe/PreviewRecipe"
 import ChefAllRecipes from "./pages/chef/ChefAllRecipes"
+import SavedRecipes from "./pages/recipe/SavedRecipes"
 
 
 
@@ -37,6 +38,7 @@ function App() {
            <Route path="/create-recipe" element={<CreateRecipe/>} />
            <Route path="/previewRecipe" element={<PreviewRecipe/>} />
            <Route path="/chefAllRecipes" element={<ChefAllRecipes/>} />
+           <Route path="/savedRecipes" element={<SavedRecipes/>} />
           </Route>
           <Route path="/recipeCards" element={<RecipeCard/>}/>
           <Route path="/userListCards" element={<UserList/>}/>

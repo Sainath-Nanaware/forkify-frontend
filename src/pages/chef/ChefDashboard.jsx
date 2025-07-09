@@ -65,7 +65,7 @@ function ChefDashboard() {
   //user side drawer routes
   const drawerItem=[
     { text:'Profile', route:'/profile' },
-    { text: 'Saved', route:'/saved' },
+    { text: 'Saved', route:'/savedRecipes' },
     { text: 'Recipes', route: '/chefAllRecipes' },
     { text: 'Create Recipe', route: '/create-recipe' }
   ]

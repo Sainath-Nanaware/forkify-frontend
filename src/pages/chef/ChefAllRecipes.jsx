@@ -85,7 +85,7 @@ function ChefAllRecipes() {
                 {/* recipes cards */}
                 {chefAllRecipes?(
                     chefAllRecipes.map((element)=>{
-                    return <Link to={`/recipeDetails/${element._id}`} state={{admin:true}} key={element._id}> <RecipeCard  name={element.title} desc={element.description} img={element.image} /></Link>
+                    return <Link to={`/recipeDetails/${element._id}`} state={{chef:true}} key={element._id}> <RecipeCard  name={element.title} desc={element.description} img={element.image} /></Link>
                 })
             ):(
                 <p>No recipes</p>

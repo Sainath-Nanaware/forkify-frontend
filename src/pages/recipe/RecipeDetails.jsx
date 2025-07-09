@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import img from '../../assets/healthy_food.jpg'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteRecipe, getRecipeDetails } from '../../api/apiRequests'
+import { deleteRecipe, getRecipeDetails, saveRecipe } from '../../api/apiRequests'
 import { useLocation } from 'react-router-dom';
 import { getRecipeDetailsThunk } from '../../features/recipes/recipesSlice'
 import Button from '@mui/material/Button'
@@ -13,9 +13,9 @@ function RecipeDetails() {
   const dispatch=useDispatch()
   const { id } = useParams();
   const location = useLocation();
-  const { admin } = location.state || {};
+  const { chef } = location.state || {};
   const navigate=useNavigate()
-  console.log(admin)
+  console.log(chef)
   useEffect(()=>{
     dispatch(getRecipeDetailsThunk(id))
   },[id])
@@ -45,6 +45,23 @@ function RecipeDetails() {
       }
     }
     deleteRecipeOfChef(id)
+  }
+  const handleSaveRecipe=(id)=>{
+      async function saveRecipeInCollection(id){
+        try{
+          const data={
+            userId:localStorage.getItem("userID"),
+            recipeId:id
+          }
+          await saveRecipe(data)
+          toast.success("Recipe saved successfully")
+          
+        }catch(error){
+          console.log("error at save recipe in user saved collection ")
+          toast.error("Something wents wrong!")
+        }
+      }
+      saveRecipeInCollection(id)
   }
 
 
@@ -79,10 +96,10 @@ function RecipeDetails() {
             </div>
              {/* tab fields */}
             <div className=' w-[50%] h-[100%] flex justify-end items-center gap-10 pr-[5vw]'>
-              <Link className='font-semibold hover:text-[#FEBE10]' to={"/"}>Home</Link>
+              <Link className='font-semibold hover:text-[#FEBE10]' to={`${chef?("/chefAllRecipes"):("/chef/dashboard")}`}>Home</Link>
               {/* <Link className='font-semibold hover:text-[#FEBE10]'>About Us</Link> */}
               {/* <Link className='font-semibold hover:text-[#FEBE10]'>Blog</Link> */}
-              <Link className='font-semibold hover:text-[#FEBE10]' to={"/login"}>Log Out</Link>
+              {/* <Link className='font-semibold hover:text-[#FEBE10]' to={"/login"}>Log Out</Link> */}
               {/* <Link className='font-semibold hover:text-[#FEBE10]' to={"/signUp"}>Sign up</Link> */}
               {/* user setting drawer button  */}
 
@@ -159,9 +176,13 @@ function RecipeDetails() {
          </div>
          
       </div>
-      {admin && <div className='h-[10vh] flex justify-center items-center'>
+      {chef?(<div className='h-[10vh] flex justify-center items-center'>
               <Button onClick={()=>{handleDeleteRecipe(id)}} variant="contained" sx={{backgroundColor:'red',textTransform: 'none'}}>Delete Recipe</Button>
-      </div>}
+      </div>):(
+        <div className='h-[10vh] flex justify-center items-center'>
+              <Button onClick={()=>{handleSaveRecipe(id)}} variant="contained" sx={{backgroundColor:'green',textTransform: 'none'}}>Save Recipe</Button>
+        </div>
+      )}
       
 
    </>
