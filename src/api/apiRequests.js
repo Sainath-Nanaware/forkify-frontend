@@ -8,6 +8,7 @@ export const registerUser = (data) => axiosClient.post("/user/register", data);
 // User APIs
 export const getAllUsersInfo = () => axiosClient.get(`/admin/allUsers`);
 export const getUsersInfoByRole = (role) => axiosClient.get(`/admin/user?role=${role}`);
+export const getUserInfo=(id)=>axiosClient.get(`user/userInfo/${id}`)
 export const deleteUser = (id) => axiosClient.delete(`/users/${id}`);
 export const saveRecipe = (data) => axiosClient.post(`user/savedRecipe`,data);
 export const allSavedRecipe=(id)=>axiosClient.get(`user/savedRecipes/${id}`)
