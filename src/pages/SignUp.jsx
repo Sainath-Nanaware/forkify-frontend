@@ -138,7 +138,7 @@ function SignUp() {
                 {...register('role')}
                 className="block w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-gray-800"
              >           
-                <option value="user">Guest</option>
+                <option value="user">Foodie</option>
                 <option value="chef">Chef</option>
              </select>
             </div>

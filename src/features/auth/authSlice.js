@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { loginUser, registerUser } from "../../api/apiRequests";
-import { removeToken, setToken, setUserId } from "./authService";
+import { removeToken, setRole, setToken, setUserId } from "./authService";
 
 export const login=createAsyncThunk("/login",async(credentials, { rejectWithValue })=>{
         try {
@@ -8,6 +8,7 @@ export const login=createAsyncThunk("/login",async(credentials, { rejectWithValu
             const response=await loginUser(credentials)
             setToken(response.data.data.token)
             setUserId(response.data.data.id)
+            setRole(response.data.data.role)
             // console.log(response.data);
             // console.log("token:",response.data.data.token);
             return response.data

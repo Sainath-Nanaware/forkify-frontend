@@ -39,7 +39,7 @@ function Login() {
       if (role === 'admin') {
         navigate('/admin/dashboard');
       } else if (role === 'user') {
-        navigate('/user/dashboard');
+        navigate('/foodie/dashboard');
       }else if (role === 'chef') {
         navigate('/chef/dashboard');
       } else {

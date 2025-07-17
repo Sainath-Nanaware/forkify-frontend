@@ -17,6 +17,8 @@ import PreviewRecipe from "./pages/recipe/PreviewRecipe"
 import ChefAllRecipes from "./pages/chef/ChefAllRecipes"
 import SavedRecipes from "./pages/recipe/SavedRecipes"
 import ChefProfile from "./pages/chef/ChefProfile"
+import FoodieDashboard from "./pages/foodie/FoodieDashboard"
+import FoodieProfile from "./pages/foodie/FoodieProfile"
 
 
 
@@ -41,6 +43,14 @@ function App() {
            <Route path="/chefAllRecipes" element={<ChefAllRecipes/>} />
            <Route path="/savedRecipes" element={<SavedRecipes/>} />
            <Route path="/profile" element={<ChefProfile/>}/>
+          </Route>
+          {/* Foodie routes */}
+          <Route element={<ProtectedRoute allowedRoles={['user']}/>}>
+            <Route path="/foodie/dashboard" element={<FoodieDashboard/>}/>
+            <Route path="/foodie/profile" element={<FoodieProfile/>}/>
+            <Route path="/foodie/recipeDetails/:id" element={<RecipeDetails/>} />
+            <Route path="/foodie/savedRecipes" element={<SavedRecipes/>} />
+
           </Route>
           <Route path="/recipeCards" element={<RecipeCard/>}/>
           <Route path="/userListCards" element={<UserList/>}/>

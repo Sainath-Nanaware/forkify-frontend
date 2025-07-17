@@ -2,6 +2,7 @@ import axiosClient from "../../api/axiosClient";
 
 const TOKEN_KEY = "token";
 const USER_ID="userID"
+const ROLE="role"
 
 export const setToken = (token) => {
   console.log(token);
@@ -11,6 +12,10 @@ export const setToken = (token) => {
 
 export const setUserId=(id)=>{
   localStorage.setItem(USER_ID,id)
+}
+
+export const setRole=(role)=>{
+  localStorage.setItem(ROLE, role);
 }
 
 export const removeToken = () => {

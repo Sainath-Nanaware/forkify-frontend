@@ -7,6 +7,7 @@ import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 
 function RecipeCard({id, name, desc, img, saveRecipePage,removeRecipe }) {
   const saveRecipePageStatus = saveRecipePage || false;
+  const role=localStorage.getItem("role")
   const navigate=useNavigate()
   
   
@@ -16,7 +17,7 @@ function RecipeCard({id, name, desc, img, saveRecipePage,removeRecipe }) {
         <div className="relative p-[8px] h-[52vh] w-[19vw] shadow-2xl flex flex-col justify-center items-center gap-1 rounded-xl bg-white">
           {/* Options Menu */}
           <div className="absolute top-2 right-2 z-20">
-            <button onClick={()=>{removeRecipe(id)}} >
+            <button className="p-1 bg-amber-200 rounded-2xl"onClick={()=>{removeRecipe(id)}} >
               <BookmarkRemoveIcon/>
             </button>
 
@@ -39,7 +40,7 @@ function RecipeCard({id, name, desc, img, saveRecipePage,removeRecipe }) {
           />
           <p className="text-[18px] font-semibold">{name}</p>
           <p className="line-clamp-2 text-gray-500 text-center px-2">{desc}</p>
-          <Link to={`/recipeDetails/${id}`} ><button className="pt-[2px] pb-[2px] px-[6px] mt-1 font-semibold rounded-sm border-2 border-orange-400 hover:bg-[#FEBE10] hover:border-[#FEBE10]">
+          <Link to={role==="chef"?(`/recipeDetails/${id}`):(`/foodie/recipeDetails/${id}`) } ><button className="pt-[2px] pb-[2px] px-[6px] mt-1 font-semibold rounded-sm border-2 border-orange-400 hover:bg-[#FEBE10] hover:border-[#FEBE10]">
             See Full Details
           </button></Link>
         </div>

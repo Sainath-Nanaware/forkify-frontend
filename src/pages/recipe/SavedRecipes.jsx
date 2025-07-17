@@ -10,6 +10,7 @@ import { removeSavedRecipe } from '../../api/apiRequests';
 
 function SavedRecipes() {
   const dispatch=useDispatch()
+  const role=localStorage.getItem("role")
   // const [savedRecipesState,setSavedRecipeState]=useState()
   const {savedRecipes}=useSelector((state)=>state.users)
   const userId=localStorage.getItem("userID")
@@ -72,7 +73,10 @@ function SavedRecipes() {
             </div>
              {/* tab fields */}
             <div className=' w-[50%] h-[100%] flex justify-end items-center gap-10 pr-[5vw]'>
-              <Link className='font-semibold hover:text-[#FEBE10]' to={"/chef/dashboard"}>Home</Link>
+              {role==="chef"?(<Link className='font-semibold hover:text-[#FEBE10]' to={"/chef/dashboard"}>Home</Link>):(
+                <Link className='font-semibold hover:text-[#FEBE10]' to={"/foodie/dashboard"}>Home</Link>
+              )}
+              {/* <Link className='font-semibold hover:text-[#FEBE10]' to={"/chef/dashboard"}>Home</Link> */}
               {/* <Link className='font-semibold hover:text-[#FEBE10]'>About Us</Link> */}
               {/* <Link className='font-semibold hover:text-[#FEBE10]'>Blog</Link> */}
               {/* <Link className='font-semibold hover:text-[#FEBE10]' to={"/login"}>Login</Link> */}

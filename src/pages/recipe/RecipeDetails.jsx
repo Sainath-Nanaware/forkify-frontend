@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 
 function RecipeDetails() {
   const {singleRecipeDetails}=useSelector((state)=>state.recipes)
+  const role=localStorage.getItem("role")
   const dispatch=useDispatch()
   const { id } = useParams();
   const location = useLocation();
@@ -96,7 +97,10 @@ function RecipeDetails() {
             </div>
              {/* tab fields */}
             <div className=' w-[50%] h-[100%] flex justify-end items-center gap-10 pr-[5vw]'>
-              <Link className='font-semibold hover:text-[#FEBE10]' to={`${chef?("/chefAllRecipes"):("/chef/dashboard")}`}>Home</Link>
+              {role==="chef"?(<Link className='font-semibold hover:text-[#FEBE10]' to={`${chef?("/chefAllRecipes"):("/chef/dashboard")}`}>Home</Link>):(
+                <Link className='font-semibold hover:text-[#FEBE10]' to={`/foodie/dashboard`}>Home</Link>
+              )}
+              {/* <Link className='font-semibold hover:text-[#FEBE10]' to={`${chef?("/chefAllRecipes"):("/chef/dashboard")}`}>Home</Link> */}
               {/* <Link className='font-semibold hover:text-[#FEBE10]'>About Us</Link> */}
               {/* <Link className='font-semibold hover:text-[#FEBE10]'>Blog</Link> */}
               {/* <Link className='font-semibold hover:text-[#FEBE10]' to={"/login"}>Log Out</Link> */}
